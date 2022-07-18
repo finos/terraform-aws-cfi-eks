@@ -1,7 +1,7 @@
 ---
-name: "\U0001F91D {project name} Meeting Minutes"
-about: To track {project name} meeting agenda and attendance
-title: DD MMM YYYY - {project name} Meeting Minutes
+name: "\U0001F91D Terraform scripts AWS EKS for CDMC Meeting Minutes"
+about: To track Terraform scripts AWS EKS for CDMC meeting agenda and attendance
+title: DD MMM YYYY - Terraform scripts AWS EKS for CDMC Meeting Minutes
 labels: meeting
 assignees: 
 
