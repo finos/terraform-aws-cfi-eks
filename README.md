@@ -8,8 +8,6 @@ This terraform module produces an AWS EKS cluster.
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
-Before running the Terraform scripts, make sure to set the [IAM required permissions](./iam-required-permissions.md) first. You will have to remove the comments in the code if you decide to copy/paste them. Remember it is a best practice to use a role and assign this permissions as a managed policy rather than inline.
-
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~> 1.0 |
