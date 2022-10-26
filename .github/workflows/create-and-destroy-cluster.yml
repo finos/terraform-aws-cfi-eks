@@ -1,0 +1,76 @@
+---
+name: Create the Destroy EKS cluster
+
+on: # yamllint disable-line rule:truthy
+  pull_request:
+  workflow_dispatch:
+
+env:
+  TF_IN_AUTOMATION: true
+  TF_INPUT: false
+  TF_CLI_ARGS: "-no-color"
+  WORKING_DIRECTORY: aws/eks/eks-terraform-scripts
+
+jobs:
+  validate:
+    runs-on: ubuntu-22.04
+    outputs:
+      eks-ok: ${{ steps.check-eks-secrets.outputs.eks-ok }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup terraform
+        uses: hashicorp/setup-terraform@v1.3.2
+        with:
+          terraform_version: "~1.0.0"
+
+      - name: Validate eks terraform
+        uses: ./.github/actions/terraform-validate
+        with:
+          working-directory: ${{ env.WORKING_DIRECTORY }}
+
+      - name: check for secrets needed for eks deploy
+        id: check-eks-secrets
+        run: |
+          if [ ! -z "${{ secrets.AWS_KEY_ID }}" ]; then
+            echo "::set-output name=eks-ok::true"
+          fi
+
+  ephemeral-deploy:
+    runs-on: ubuntu-22.04
+    defaults:
+      run:
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_KEY_SECRET }}
+    needs: validate
+    if: ${{ needs.validate.outputs.eks-ok == 'true' }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup terraform
+        uses: hashicorp/setup-terraform@v1.3.2
+        with:
+          terraform_version: "~1.0.0"
+
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v1
+
+      - name: Make sure we have destroyed any leftover resources
+        uses: ./.github/actions/terraform-destroy
+        with:
+          working-directory: ${{ env.WORKING_DIRECTORY }}
+
+      - name: Apply eks terraform
+        uses: ./.github/actions/terraform-apply
+        with:
+          working-directory: ${{ env.WORKING_DIRECTORY }}
+
+      - name: Destroy eks terraform
+        if: always()
+        uses: ./.github/actions/terraform-destroy
+        with:
+          working-directory: ${{ env.WORKING_DIRECTORY }}
