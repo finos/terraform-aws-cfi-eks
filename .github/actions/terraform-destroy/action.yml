@@ -1,0 +1,13 @@
+---
+name: terraform destroy
+
+runs:
+  using: "composite"
+  steps:
+    - name: Terraform Init
+      run: terraform init
+      shell: bash
+
+    - name: Terraform Destroy
+      run: terraform destroy -auto-approve
+      shell: bash
