@@ -26,8 +26,6 @@ jobs:
 
       - name: Validate eks terraform
         uses: ./.github/actions/terraform-validate
-        with:
-          working-directory: ${{ env.WORKING_DIRECTORY }}
 
       - name: check for secrets needed for eks deploy
         id: check-eks-secrets
@@ -38,9 +36,6 @@ jobs:
 
   ephemeral-deploy:
     runs-on: ubuntu-22.04
-    defaults:
-      run:
-        working-directory: ${{ env.WORKING_DIRECTORY }}
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_KEY_SECRET }}
@@ -60,16 +55,10 @@ jobs:
 
       - name: Make sure we have destroyed any leftover resources
         uses: ./.github/actions/terraform-destroy
-        with:
-          working-directory: ${{ env.WORKING_DIRECTORY }}
 
       - name: Apply eks terraform
         uses: ./.github/actions/terraform-apply
-        with:
-          working-directory: ${{ env.WORKING_DIRECTORY }}
 
       - name: Destroy eks terraform
         if: always()
         uses: ./.github/actions/terraform-destroy
-        with:
-          working-directory: ${{ env.WORKING_DIRECTORY }}
