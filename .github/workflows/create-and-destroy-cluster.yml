@@ -1,5 +1,5 @@
 ---
-name: Create the Destroy EKS cluster
+name: Create then Destroy EKS cluster
 
 on: # yamllint disable-line rule:truthy
   pull_request:
