@@ -24,20 +24,20 @@ module "eks" {
     root_volume_type = "gp2"
   }
 
-  self_managed_node_groups = [
-    {
+  self_managed_node_groups = {
+    worker_group_one = {
       name                          = "worker-group-1"
       instance_type                 = var.worker_groups_instance_type
       asg_desired_capacity          = var.worker_groups_asg_desired_capacity
       additional_security_group_ids = [aws_security_group.worker_group_one.id]
-    },
-    {
+    }
+    worker_group_two = {
       name                          = "worker-group-2"
       instance_type                 = var.worker_groups_instance_type
       asg_desired_capacity          = var.worker_groups_asg_desired_capacity
       additional_security_group_ids = [aws_security_group.worker_group_two.id]
-    },
-  ]
+    }
+  }
 }
 
 data "aws_eks_cluster" "cluster" {
