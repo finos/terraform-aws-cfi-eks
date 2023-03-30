@@ -62,9 +62,14 @@ jobs:
       - name: Apply eks terraform
         uses: ./.github/actions/terraform-apply
 
-      - name: Install & Run Kubescape (testing this out)
+      - name: Install Kubescape
         run: |
           curl -s https://raw.githubusercontent.com/kubescape/kubescape/master/install.sh | /bin/bash
+          export PATH=$PATH:/home/runner/.kubescape/bin
+
+
+      - name: Run Kubescape
+        run: |
           kubescape scan --enable-host-scan --verbose
           # if this doesn't work, aws eks update-kubeconfig --name <cluster_name>
           # if that doesn't work, kubescape scan --kubeconfig <kubeconfig_location>
