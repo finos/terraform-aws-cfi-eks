@@ -7,7 +7,7 @@ module "eks" {
   version         = ">=19.0.0, <20.0.0"
   cluster_name    = local.cluster_name
   cluster_version = "1.25"
-  subnets         = module.vpc.private_subnets
+  subnet_ids      = module.vpc.private_subnets
 
   cluster_encryption_config = [
     {
@@ -22,11 +22,11 @@ module "eks" {
 
   vpc_id = module.vpc.vpc_id
 
-  workers_group_defaults = {
+  self_managed_node_group_defaults = {
     root_volume_type = "gp2"
   }
 
-  worker_groups = [
+  self_managed_node_groups = [
     {
       name                          = "worker-group-1"
       instance_type                 = var.worker_groups_instance_type
