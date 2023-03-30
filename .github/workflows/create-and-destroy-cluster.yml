@@ -62,6 +62,13 @@ jobs:
       - name: Apply eks terraform
         uses: ./.github/actions/terraform-apply
 
+      - name: Install & Run Kubescape (testing this out)
+        run: |
+          curl -s https://raw.githubusercontent.com/kubescape/kubescape/master/install.sh | /bin/bash
+          kubescape scan --enable-host-scan --verbose
+          # if this doesn't work, aws eks update-kubeconfig --name <cluster_name>
+          # if that doesn't work, kubescape scan --kubeconfig <kubeconfig_location>
+
       - name: Destroy eks terraform
         if: always()
         uses: ./.github/actions/terraform-destroy
