@@ -20,5 +20,5 @@ output "region" {
 
 output "k8s_cluster_name" {
   description = "Kubernetes cluster name."
-  value       = local.cluster_name
+  value       = local.k8s_cluster_name
 }
