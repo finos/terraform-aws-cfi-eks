@@ -1,6 +1,6 @@
-output "cluster_id" {
-  description = "EKS cluster ID."
-  value       = module.eks.cluster_id
+output "cluster_name" {
+  description = "EKS cluster name"
+  value       = module.eks.cluster_name
 }
 
 output "cluster_endpoint" {
@@ -18,7 +18,7 @@ output "region" {
   value       = var.region
 }
 
-output "cluster_name" {
+output "k8s_cluster_name" {
   description = "Kubernetes cluster name."
   value       = local.cluster_name
 }
