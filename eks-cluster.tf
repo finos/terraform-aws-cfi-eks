@@ -9,7 +9,8 @@ module "eks" {
   cluster_version = "1.25"
   subnet_ids      = module.vpc.private_subnets
 
-  create_kms_key = false
+  create_kms_key              = false
+  create_cloudwatch_log_group = false
 
   cluster_encryption_config = {
     provider_key_arn = aws_kms_key.eks.arn
