@@ -1,0 +1,12 @@
+---
+name: use aws-nuke to remove everything in AWS
+
+runs:
+  using: "composite"
+  steps:
+    - name: checkout
+      uses: actions/checkout@v2
+    - name: Run aws-nuke to remove everything from aws account
+      uses: "docker://quay.io/rebuy/aws-nuke"
+      with:
+        args: "--config .github/aws-nuke.yml --force --no-dry-run"

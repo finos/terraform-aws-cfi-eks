@@ -1,7 +1,7 @@
 ---
 name: Create then Destroy EKS cluster
 
-on: # yamllint disable-line rule:truthy
+on:  # yamllint disable-line rule:truthy
   pull_request:
   workflow_dispatch:
 
@@ -52,6 +52,9 @@ jobs:
 
       - name: Setup kubectl
         uses: azure/setup-kubectl@v1
+
+      - name: Nuke any leftover resources
+        uses: ./.github/actions/aws-nuke
 
       - name: Make sure we have destroyed any leftover resources
         uses: ./.github/actions/terraform-destroy
