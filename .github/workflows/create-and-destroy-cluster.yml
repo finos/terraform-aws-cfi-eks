@@ -68,7 +68,7 @@ jobs:
 
       - name: Run Kubescape
         run: |
-          /home/runner/.kubescape/bin scan --enable-host-scan --verbose
+          /home/runner/.kubescape/bin/kubescape scan --enable-host-scan --verbose
           # if this doesn't work, aws eks update-kubeconfig --name <cluster_name>
           # if that doesn't work, kubescape scan --kubeconfig <kubeconfig_location>
 
