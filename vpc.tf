@@ -12,9 +12,9 @@ resource "random_string" "suffix" {
 }
 
 locals {
-  cluster_name     = "cfi-eks"
-  vpc_name         = "cfi-vpc"
-  k8s_cluster_name = "cfi-eks-k8s"
+  cluster_name     = "cfi-eks-${random_string.suffix.result}"
+  vpc_name         = "cfi-vpc-${random_string.suffix.result}"
+  k8s_cluster_name = "cfi-eks-${random_string.suffix.result}-k8s"
 }
 
 module "vpc" {
