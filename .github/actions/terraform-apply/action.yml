@@ -8,6 +8,15 @@ runs:
       run: terraform init
       shell: bash
 
+    - name: Terraform Plan
+      run: terraform plan --out=tfplan
+      shell: bash
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: tfplan
+        path: tfplan
+
     - name: Terraform Apply
-      run: terraform apply -auto-approve
+      run: terraform apply -auto-approve tfplan
       shell: bash
