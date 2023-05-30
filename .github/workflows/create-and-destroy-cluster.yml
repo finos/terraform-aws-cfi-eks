@@ -59,9 +59,19 @@ jobs:
       - name: Make sure we have destroyed any leftover resources
         uses: ./.github/actions/terraform-destroy
 
-      - name: Apply eks terraform
-        uses: ./.github/actions/terraform-apply
+      # - name: Apply eks terraform
+      #   uses: ./.github/actions/terraform-apply
 
-      - name: Destroy eks terraform
-        if: always()
-        uses: ./.github/actions/terraform-destroy
+      - name: Install Kubescape
+        run: |
+          curl -s https://raw.githubusercontent.com/kubescape/kubescape/master/install.sh | /bin/bash
+
+      - name: Run Kubescape
+        run: |
+          /home/runner/.kubescape/bin/kubescape scan --enable-host-scan --verbose
+          # if this doesn't work, aws eks update-kubeconfig --name <cluster_name>
+          # if that doesn't work, kubescape scan --kubeconfig <kubeconfig_location>
+
+      # - name: Destroy eks terraform
+      #   if: always()
+      #   uses: ./.github/actions/terraform-destroy
