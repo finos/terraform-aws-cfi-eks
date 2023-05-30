@@ -11,12 +11,6 @@ resource "random_string" "suffix" {
   special = false
 }
 
-locals {
-  cluster_name     = "cfi-eks-${random_string.suffix.result}"
-  vpc_name         = "cfi-vpc"
-  k8s_cluster_name = "cfi-eks-${random_string.suffix.result}-k8s"
-}
-
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "2.66.0"
